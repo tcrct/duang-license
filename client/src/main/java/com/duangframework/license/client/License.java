@@ -4,6 +4,7 @@ import org.apache.commons.io.IOUtils;
 
 import javax.crypto.Cipher;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
 import java.security.PublicKey;
@@ -97,6 +98,7 @@ public class License {
      */
     public LicenseEntity loadLicense(InputStream inputStream, byte[] publicKey) {
         try {
+//            System.out.println(IOUtils.toString(inputStream, Charset.defaultCharset()));
             LicenseEntity licenseEntity = loadLicense(inputStream);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(licenseEntity.getData());

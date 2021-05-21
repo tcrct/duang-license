@@ -17,11 +17,11 @@ import java.util.Base64;
 public class LicenseClientTest {
     public static void main(String[] args) {
 //        InputStream inputStream = LicenseClientTest.class.getClassLoader().getResourceAsStream("license_revert.txt");
-        InputStream inputStream = LicenseClientTest.class.getClassLoader().getResourceAsStream("license.txt");
+        InputStream inputStream = LicenseClientTest.class.getClassLoader().getResourceAsStream("duang-license.txt");
         License license = new License();
         LicenseEntity licenseData = license.loadLicense(inputStream,
                 Base64.getDecoder().decode(
-                        "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCiYHbUgm37S4qoMVti7GT3K7uGFVp4dWFCzIyLR+TNKxAQOH8kZmFQVlqRubS0Zhg7huDnHUtSq0QfUfGpHjULlqZAh3BOPT02Kz5WSKPq81EMcTsvhDq4E4GFmPQBnFQe512HipnLxT99Hhl4ZsapdgiPzRKUQ5ALNdJqKAUT0wIDAQAB"));
+                        "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCVm6HptT8o7wo3Pc+yryp0QiGdI0czyYUpZAnaENapfUW3kLyXf3yisVjRYFJq9YtCr1TUDbjzF/fAge1EkjSUkknfO/eVb5GC3CpdqTiAvhOvQt6wGS6QOhP0BIAStdTQmYUuSOnzCBp+tteTwCG6hjF5IaedgopuThi2KX4oMQIDAQAB"));
         String data = new String(licenseData.getData());
 
         System.out.println(data);

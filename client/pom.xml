@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.duangframework.license</groupId>
-  <artifactId>client</artifactId>
+  <artifactId>duang-license-client</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>client</name>
+  <name>duang-license-client</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -30,7 +30,6 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>1.7.29</version>
-      <scope>compile</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.github.oshi/oshi-core -->
     <dependency>
@@ -46,5 +45,16 @@
     </dependency>
   </dependencies>
 
-
+  <distributionManagement>
+    <repository>
+      <id>nexus</id>
+      <name>Releases</name>
+      <url>http://dev.signetz.com:7071/repository/maven-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus</id>
+      <name>Snapshot</name>
+      <url>http://dev.signetz.com:7071/repository/maven-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>

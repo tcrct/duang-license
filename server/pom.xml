@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.duangframework.license</groupId>
-  <artifactId>server</artifactId>
+  <artifactId>duang-license-server</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>server</name>  <!-- FIXME change it to the project's website -->
+  <name>duang-license-server</name>  <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
   <properties>
@@ -24,12 +24,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.duangframework.license</groupId>
-      <artifactId>client</artifactId>
-      <version>${duanglicense.version}</version>
-    </dependency>
-
-    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>${commons.io.version}</version>
@@ -40,25 +34,23 @@
       <version>${commons.lang.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
-      <version>${log4j2.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
-      <version>${log4j2.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-slf4j-impl</artifactId>
-      <version>${log4j2.version}</version>
+      <groupId>com.duangframework.license</groupId>
+      <artifactId>duang-license-client</artifactId>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
+
+  <distributionManagement>
+    <repository>
+      <id>nexus</id>
+      <name>Releases</name>
+      <url>http://dev.signetz.com:7071/repository/maven-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus</id>
+      <name>Snapshot</name>
+      <url>http://dev.signetz.com:7071/repository/maven-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>

@@ -4,8 +4,6 @@ import com.duangframework.license.client.LicenseEntity;
 import com.duangframework.license.client.Md5;
 import com.duangframework.license.client.OshiUtil;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -19,22 +17,16 @@ import java.util.Properties;
  * @author duang
  */
 public class LicenseServer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LicenseServer.class);
-    private final String sourceFile = "source.txt";
-    private final String licenseFile = "license.txt";
+    private static final String sourceFile = "duang-license-source.txt";
+    private static final String licenseFile = "duang-license.txt";
 
     public static void main(String[] args) throws Exception {
         if (args == null || args.length < 2) {
-            LOGGER.info("args is invalid");
-            return;
-        }
-        String key = args[0];
-        if (!"1b88ab6d".equals(key)) {
-            LOGGER.info("sucerity key is invalid");
+            System.out.println("args is invalid");
             return;
         }
         LicenseServer license = new LicenseServer();
-        String expire = args[1];
+        String expire = args[0];
         char type = expire.charAt(expire.length() - 1);
         int value = Integer.valueOf(expire.substring(0, expire.length() - 1));
         Calendar calendar = Calendar.getInstance();
@@ -58,14 +50,14 @@ public class LicenseServer {
         File file = new File(data);
         byte[] bytes;
         if (file.isFile()) {
-            LOGGER.info("sign for file:{}", file.getPath());
+            System.out.println("sign for file:" + file.getPath());
             bytes = IOUtils.toByteArray(new FileInputStream(file));
         } else {
-            LOGGER.info("sign for string:{}", data);
+            System.out.println("sign for string: " + data);
             bytes = data.getBytes();
         }
         if (args.length > 2) {
-            license.createLicense(bytes, calendar.getTime(), Base64.getDecoder().decode(args[2]));
+            license.createLicense(bytes, calendar.getTime(), Base64.getDecoder().decode(args[1]));
         } else {
             license.createLicense(bytes, calendar.getTime());
         }
@@ -165,7 +157,8 @@ public class LicenseServer {
                 fileWriter.close();
             }
         }
-        LOGGER.info("License data :{}", sourceLicense.getBase64Content());
-        LOGGER.info("Expire Date:{}", sourceLicense.getExpireDate());
+        System.out.println("\n##############");
+        System.out.println("License data: "+ sourceLicense.getBase64Content());
+        System.out.println("Expire Date: "+ sourceLicense.getExpireDate());
     }
 }

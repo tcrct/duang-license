@@ -34,5 +34,25 @@
         </dependency>
     </dependencies>
 </dependencyManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Releases</name>
+            <url>http://dev.signetz.com:7071/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Snapshot</name>
+            <url>http://dev.signetz.com:7071/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <name>Snapshot</name>
+            <url>http://dev.signetz.com:7071/repository/maven-snapshots/</url>
+        </repository>
+    </repositories>
     
 </project>
