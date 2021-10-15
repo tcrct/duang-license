@@ -1,10 +1,7 @@
 package com.duangframework.license.client;
 
 import oshi.SystemInfo;
-import oshi.hardware.CentralProcessor;
-import oshi.hardware.HWDiskStore;
-import oshi.hardware.HardwareAbstractionLayer;
-import oshi.hardware.NetworkIF;
+import oshi.hardware.*;
 import oshi.software.os.OperatingSystem;
 
 import java.util.List;
@@ -19,7 +16,6 @@ public class OshiUtil {
         HardwareAbstractionLayer hardware = systemInfo.getHardware();
         // CPU
         CentralProcessor processor = hardware.getProcessor();
-        processor.getProcessorIdentifier();
         sb.append(processor.toString());
         OperatingSystem os = systemInfo.getOperatingSystem();
         sb.append(os);
@@ -44,10 +40,19 @@ public class OshiUtil {
 //                sb.append(fileStore.getUUID());
 //            }
 //        }
-        return sb.toString().replace(" ", "").replace("\n","");
+        String serverInfo =  sb.toString().replace(" ", "").replace("\n","");
+//        System.out.println(serverInfo);
+        // 要将进程ID去掉，因为这个每次断电再开机，会发生变化的
+        String processorID = "ProcessorID:"+processor.getProcessorIdentifier().getProcessorID();
+        serverInfo = serverInfo.replace(processorID, "");
+        return  serverInfo;
     }
 
     public static void main(String[] args) {
-        System.out.println( OshiUtil.getSystemInfo() );
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n#######请复制以下字符串，并发送给厂商管理员，生成系统许可证#######\n\n");
+        sb.append( OshiUtil.getSystemInfo() );
+        sb.append("\n\n###########################\n");
+        System.out.println(sb);
     }
 }

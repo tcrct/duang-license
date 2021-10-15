@@ -100,6 +100,7 @@ public class License {
         try {
 //            System.out.println(IOUtils.toString(inputStream, Charset.defaultCharset()));
             LicenseEntity licenseEntity = loadLicense(inputStream);
+
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(licenseEntity.getData());
             while (byteArrayInputStream.available() > 0) {
@@ -108,6 +109,7 @@ public class License {
                 byteArrayOutputStream.write(decryptByPublicKey(block, publicKey));
             }
             licenseEntity.setData(byteArrayOutputStream.toByteArray());
+
             return licenseEntity;
         } catch (LicenseException e) {
             throw e;

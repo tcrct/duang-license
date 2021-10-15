@@ -63,6 +63,40 @@ public class LicenseServer {
         }
     }
 
+    public String createLicenseService(byte[] data, Date expireDate) throws Exception {
+        byte[] privateKey = Base64.getDecoder().decode(
+                "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAJWboem1PyjvCjc9z7KvKnRCIZ0jRzPJhSlkCdoQ1ql9RbeQvJd/fKKxWNFgUmr1i0KvVNQNuPMX98CB7USSNJSSSd8795VvkYLcKl2pOIC+E69C3rAZLpA6E/QEgBK11NCZhS5I6fMIGn6215PAIbqGMXkhp52Cim5OGLYpfigxAgMBAAECgYAOpqkajAddaNtlQYZfh0vvCrLkAppsdeW2gfd9BX0gKAZ1zZTKeU+pVxjNmFM56kXzB9yUz6s3EzfOAGtN9ct0QmnrHoFmUMKXbUe+QkrDvbpbhegEr3smpSYDFyhI1PZib7Ltnvy930DeQPEY5ZuY5w3Omki/qOfYJ1a3qczYiQJBAOcz/YeY2AkAOvI6ky/ive9JQD+DJLgGafrbODcn2pwv7tHDw8wa2GkyVDH+TjvsVOst0bsYEQRMkClzLw9oGVcCQQClp1TNzD0x4SD9CUH5+OabfbgoJwdKgc/q88xE35lMA4UT4wdUbZV5s7GBw2thuc3YpwxQK27AJ/eLXORWxm23AkAKk5BHgbBwSPhpWFCfYin6JkmwHhmx6Wkzto+Nxl7zwiWUpvXwAlJgDZNYbh+6EgeYcpIjkuhEYBRAMSq387UlAkBgzQSQck48TJtzYiqMwbc4m+G2jQAEuRDf8nGmuaciNVhZw6wv2Q2lHa2X77NbWzF/7jYSzx6b6X8NkE3aq3/HAkAx3nyF7dTjRyHl2ByaWC24o4zjysgAau3rZ/fDldTmak3VJ6eo6t049TbP/7EeSqLqLbyae5OUNEuQLifXqhHW");
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        int offset = 0;
+        int step = 64;
+        if (step > data.length) {
+            step = data.length;
+        }
+        while (offset < data.length) {
+            byte[] encryptData = RasUtil.encryptByPrivateKey(data, privateKey, offset, step);
+            byteArrayOutputStream.write(encryptData.length);
+            byteArrayOutputStream.write(encryptData);
+            offset += step;
+            step = data.length - offset > step ? step : data.length - offset;
+        }
+
+        data = byteArrayOutputStream.toByteArray();
+        // 如果为空，则默认过期时间为3年后
+        if (expireDate == null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, 3);
+            expireDate = calendar.getTime();
+        }
+        //初始化密钥，生成密钥对
+        KeyPair keyPair = RasUtil.initKey();
+
+        LicenseEntity entity = new LicenseEntity(expireDate.getTime(), RasUtil.getPublicKey(keyPair), Md5.md5(data));
+        entity.setData(data);
+
+        LicenseEncode licenseEncode = new LicenseEncode();
+        return Base64.getEncoder().encodeToString(licenseEncode.encode(entity, RasUtil.getPrivateKey(keyPair)));
+    }
+
     /**
      * 采用非对称加密对data作预处理
      *
@@ -100,10 +134,10 @@ public class LicenseServer {
      * @throws Exception
      */
     public void createLicense(byte[] data, Date expireDate) throws Exception {
-        // 如果为空，则默认过期时间为1年后
+        // 如果为空，则默认过期时间为3年后
         if (expireDate == null) {
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.YEAR, 1);
+            calendar.add(Calendar.YEAR, 3);
             expireDate = calendar.getTime();
         }
         //初始化密钥，生成密钥对
